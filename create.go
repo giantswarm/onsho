@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/giantswarm/moa/tmux"
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
@@ -264,7 +265,7 @@ func createRun(cmd *cobra.Command, args []string) {
 	hds := strings.Split(createFlags.HDs, ",")
 	bridges := strings.Split(createFlags.BridgeInterfaces, ",")
 
-	baseDir, err := os.Getwd()
+	configDir, err := homedir.Expand(globalFlags.config)
 	assert(err)
 
 	if !validateBridges(bridges) {
@@ -280,7 +281,7 @@ func createRun(cmd *cobra.Command, args []string) {
 
 	// create vms
 	for i := 0; i < int(createFlags.NumberOfVMs); i++ {
-		vm := createVM(i, hds, bridges, baseDir)
+		vm := createVM(i, hds, bridges, configDir)
 
 		// create disks
 		for _, hd := range vm.hds {

@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
@@ -14,6 +15,7 @@ var (
 	globalFlags struct {
 		debug   bool
 		verbose bool
+		config  string
 		sleep   time.Duration
 	}
 
@@ -32,6 +34,16 @@ func init() {
 	mainCmd.PersistentFlags().BoolVarP(&globalFlags.debug, "debug", "d", false, "Print debug output")
 	mainCmd.PersistentFlags().BoolVarP(&globalFlags.verbose, "verbose", "v", false, "Print verbose output")
 	mainCmd.PersistentFlags().DurationVar(&globalFlags.sleep, "sleep", 60*time.Second, "time to sleep between machine starts")
+	mainCmd.PersistentFlags().StringVar(&globalFlags.config, "config", "~/.giantswarm/moa", "Config folder (for machine state and boot images)")
+}
+
+func createConfig() {
+	configDir, err := homedir.Expand(globalFlags.config)
+	assert(err)
+
+	if _, err := os.Stat(configDir); os.IsNotExist(err) {
+		os.MkdirAll(configDir, 0700)
+	}
 }
 
 func assert(err error) {
@@ -66,6 +78,7 @@ func mainRun(cmd *cobra.Command, args []string) {
 }
 
 func main() {
+	createConfig()
 	mainCmd.AddCommand(versionCmd)
 	mainCmd.AddCommand(createCmd)
 	mainCmd.AddCommand(destroyCmd)
