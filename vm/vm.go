@@ -1,17 +1,22 @@
 package vm
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
+
+	"github.com/giantswarm/moa/tmux"
+	"github.com/satori/go.uuid"
 )
 
 type VMFlags struct {
 	NumberOfVMs      uint8
 	BridgeInterfaces string
-	NoTmux           bool
+	NoTMux           bool
 	TMuxSessionName  string
 	HDs              string
 	Memory           uint16
@@ -26,40 +31,6 @@ type VM struct {
 	Memory  uint16
 	Image   string
 	BaseDir string
-}
-
-var (
-	UUIDs = []string{
-		"004b27ed-692e-b32e-1f68-d89aff66c71b",
-		"aa1f18e1-f14f-2dd9-4fa0-dae7317c712c",
-		"7100c054-d2c9-e299-b669-e8bdb85f6904",
-		"2843c49e-d1ba-6dd3-1320-d7cc82d8ea3a",
-		"175842d1-ce55-da90-ab2a-308b532aa17b",
-		"ed136c8b-ad6d-d604-89f3-29262a63fc76",
-		"bcd0b26c-33c8-7bb7-370d-0200e1246f61",
-		"b9eae062-101a-b17e-3728-94a3f85ccb74",
-		"4acb7094-30e9-fa14-8cfc-6403b065177b",
-		"d523b3fd-fe7b-757b-2610-7a88433e7e6a",
-		"1b7e3615-68ba-19b5-4050-9e274e96c933",
-		"a03b788b-fc8c-0684-96df-38b81daf77a3",
-		"0ecdc715-3db7-3ef7-8491-7ea93be48d60",
-		"98d53981-dde4-b2a0-9a99-db5f0e7674e8",
-		"19cab58a-721a-7771-d140-95e0ef559f30",
-		"135218ab-2056-36b8-8a64-106cff459fa8",
-		"86bc2477-80b7-3d29-3290-f0c6c7c899f8",
-		"ce20c3c0-f69a-2eeb-5a43-6076e614f699",
-		"5f4056fa-2fc5-bbb7-9b3e-a7dba2b00b3e",
-		"7a14db43-ee98-5d3c-6e9d-5e324d529eaa",
-	}
-)
-
-func shiftSerial() (string, error) {
-	if len(UUIDs) < 1 {
-		return "", fmt.Errorf("No mac addresses left.")
-	}
-	serial := UUIDs[0]
-	UUIDs = UUIDs[1:]
-	return serial, nil
 }
 
 func getImagePath(baseDir, image string) (string, error) {
@@ -82,14 +53,8 @@ func NewVM(flags *VMFlags, baseDir string) (*VM, error) {
 		return nil, err
 	}
 
-	var serial string
-	serial, err = shiftSerial()
-	if err != nil {
-		return nil, err
-	}
-
 	vm := &VM{
-		Serial:  serial,
+		Serial:  uuid.NewV4().String(),
 		Memory:  flags.Memory,
 		Image:   imagePath,
 		BaseDir: baseDir,
@@ -184,4 +149,44 @@ func (vm *VM) GenerateQEMUArgs() []string {
 	args = append(args, "-monitor", fmt.Sprintf("unix:/tmp/tinyswarm-%s.sock,server,nowait", vm.Serial))
 
 	return args
+}
+
+func (vm *VM) Start(tmuxSession string, noTMux bool) {
+	qemuArgs := vm.GenerateQEMUArgs()
+	qemuCmd := fmt.Sprintf("%s %s", "qemu-system-x86_64", strings.Join(qemuArgs, " "))
+
+	if !noTMux {
+		tmux.NewWindow(tmuxSession, vm.Serial, qemuCmd)
+	} else {
+		cmd := exec.Command("qemu-system-x86_64", qemuArgs...)
+
+		var stdout bytes.Buffer
+		var stderr bytes.Buffer
+		cmd.Stdout = &stdout
+		cmd.Stderr = &stderr
+		if err := cmd.Run(); err != nil {
+			fmt.Printf("%s %s - %v\n", stdout.String(), stderr.String(), err)
+			os.Exit(1)
+		}
+	}
+}
+
+func (vm *VM) Stop() {
+	tmux.KillWindow(vm.Serial)
+}
+
+func (vm *VM) Destroy() {
+	for _, hd := range vm.HDs {
+		os.Remove(hd.Path)
+	}
+	os.Remove(fmt.Sprintf("%s/machines/%s.json", vm.BaseDir, vm.Serial))
+}
+
+func StopAll(tmuxSession string) {
+	tmux.KillSession(tmuxSession)
+}
+
+func DestroyAll(configDir string) {
+	os.RemoveAll(configDir + "/machines")
+	os.RemoveAll(configDir + "/disks")
 }
