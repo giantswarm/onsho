@@ -44,6 +44,14 @@ func createConfig() {
 	if _, err := os.Stat(configDir); os.IsNotExist(err) {
 		os.MkdirAll(configDir, 0700)
 	}
+	machinesDir := configDir + "/machines"
+	if _, err := os.Stat(machinesDir); os.IsNotExist(err) {
+		os.MkdirAll(machinesDir, 0700)
+	}
+	disksDir := configDir + "/disks"
+	if _, err := os.Stat(disksDir); os.IsNotExist(err) {
+		os.MkdirAll(disksDir, 0700)
+	}
 }
 
 func assert(err error) {
@@ -85,6 +93,7 @@ func main() {
 	mainCmd.AddCommand(stopCmd)
 	mainCmd.AddCommand(startCmd)
 	mainCmd.AddCommand(restartCmd)
+	mainCmd.AddCommand(listCmd)
 
 	mainCmd.Execute()
 }
