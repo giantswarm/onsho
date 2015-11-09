@@ -21,7 +21,6 @@ func saveJson(data interface{}, filepath string) error {
 }
 
 func loadJson(target interface{}, filepath string) error {
-
 	jsonFile, err := os.Open(filepath)
 	if err != nil {
 		return err
