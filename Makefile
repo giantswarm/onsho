@@ -7,13 +7,6 @@ COMMIT := $(shell git rev-parse --short HEAD)
 GOPATH := $(shell pwd)/.gobuild
 PROJECT_PATH := $(GOPATH)/src/github.com/$(ORGANIZATION)
 
-ifndef GOOS
-	GOOS := $(shell go env GOOS)
-endif
-ifndef GOARCH
-	GOARCH := $(shell go env GOARCH)
-endif
-
 .PHONY: all clean run-tests deps bin install
 
 all: deps $(PROJECT)
@@ -40,15 +33,9 @@ deps: .gobuild
 	mkdir -p $(PROJECT_PATH)
 	cd $(PROJECT_PATH) && ln -s ../../../.. $(PROJECT)
 
-	docker run \
-	    --rm \
-		-v $(shell pwd):/usr/code \
-	    -e GOOS=linux \
-	    -e GOARCH=amd64 \
-	    -e GOPATH=/usr/code/.gobuild \
-	    -w /usr/code \
-	    golang:1.5 \
-	    go get github.com/$(ORGANIZATION)/$(PROJECT)
+	@GOPATH=$(GOPATH) builder go get github.com/$(ORGANIZATION)/$(PROJECT)
+	@GOPATH=$(GOPATH) builder go get github.com/spf13/cobra
+	@GOPATH=$(GOPATH) builder go get github.com/mitchellh/go-homedir
 
 	# Fetch test packages
 	@GOPATH=$(GOPATH) builder go get github.com/onsi/gomega

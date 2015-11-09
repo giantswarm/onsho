@@ -6,6 +6,7 @@ Manage QEMU VMs that will be provisioned by bootxe. With Moa you can replicate a
 
  * `tmux`
  * `qemu` (>=2.4, including kvm support)
+ * `linux`
 
 ## Setup
 
