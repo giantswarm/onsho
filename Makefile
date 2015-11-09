@@ -36,6 +36,8 @@ deps: .gobuild
 	@GOPATH=$(GOPATH) builder go get github.com/$(ORGANIZATION)/$(PROJECT)
 	@GOPATH=$(GOPATH) builder go get github.com/spf13/cobra
 	@GOPATH=$(GOPATH) builder go get github.com/mitchellh/go-homedir
+	@GOPATH=$(GOPATH) builder go get github.com/satori/go.uuid
+	@GOPATH=$(GOPATH) builder go get github.com/ryanuber/columnize
 
 	# Fetch test packages
 	@GOPATH=$(GOPATH) builder go get github.com/onsi/gomega

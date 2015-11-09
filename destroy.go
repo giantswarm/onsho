@@ -10,7 +10,7 @@ import (
 
 var (
 	destroyCmd = &cobra.Command{
-		Use:   "destroy",
+		Use:   "destroy [serial|all]",
 		Short: "Destroy virtual machines.",
 		Long:  "Destroy virtual machines.",
 		Run:   destroyRun,

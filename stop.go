@@ -10,7 +10,7 @@ import (
 
 var (
 	stopCmd = &cobra.Command{
-		Use:   "stop",
+		Use:   "stop [serial|all]",
 		Short: "Stop virtual machines.",
 		Long:  "Stop virtual machines.",
 		Run:   stopRun,
