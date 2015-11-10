@@ -33,7 +33,6 @@ deps: .gobuild
 	mkdir -p $(PROJECT_PATH)
 	cd $(PROJECT_PATH) && ln -s ../../../.. $(PROJECT)
 
-	@GOPATH=$(GOPATH) builder go get github.com/$(ORGANIZATION)/$(PROJECT)
 	@GOPATH=$(GOPATH) builder go get github.com/spf13/cobra
 	@GOPATH=$(GOPATH) builder go get github.com/mitchellh/go-homedir
 
