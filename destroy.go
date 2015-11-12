@@ -8,6 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type DestroyFlags struct {
+	TMuxSessionName string
+}
+
 var (
 	destroyCmd = &cobra.Command{
 		Use:   "destroy [serial|all]",
@@ -16,7 +20,7 @@ var (
 		Run:   destroyRun,
 	}
 
-	destroyFlags = &vm.VMFlags{}
+	destroyFlags = &DestroyFlags{}
 )
 
 func init() {
