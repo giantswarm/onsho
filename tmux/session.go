@@ -17,7 +17,7 @@ func HasSession(name string) bool {
 	}
 }
 
-func NewSession(name, cmd string) error {
-	_, err := raw("new-session", "-d", "-s", name, cmd)
+func NewSession(session, name, cmd string) error {
+	_, err := raw("new-session", "-d", "-n", name, "-s", session, cmd)
 	return err
 }

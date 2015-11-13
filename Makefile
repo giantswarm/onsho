@@ -35,6 +35,8 @@ deps: .gobuild
 
 	@GOPATH=$(GOPATH) builder go get github.com/spf13/cobra
 	@GOPATH=$(GOPATH) builder go get github.com/mitchellh/go-homedir
+	@GOPATH=$(GOPATH) builder go get github.com/satori/go.uuid
+	@GOPATH=$(GOPATH) builder go get github.com/ryanuber/columnize
 
 	# Fetch test packages
 	@GOPATH=$(GOPATH) builder go get github.com/onsi/gomega
@@ -55,6 +57,8 @@ $(PROJECT): $(SOURCE) VERSION
 
 install: $(PROJECT)
 	cp $(PROJECT) /usr/local/bin/
+	mkdir -p ~/.giantswarm/moa/images
+	cp ipxe/ipxe.iso ~/.giantswarm/moa/images
 
 fmt:
 	gofmt -l -w .
