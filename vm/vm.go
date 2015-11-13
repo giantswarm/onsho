@@ -2,6 +2,7 @@ package vm
 
 import (
 	"bytes"
+	"crypto/rand"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -14,10 +15,7 @@ import (
 )
 
 type VMFlags struct {
-	NumberOfVMs      uint8
 	BridgeInterfaces string
-	NoTMux           bool
-	TMuxSessionName  string
 	HDs              string
 	Memory           uint16
 	DiskSize         string
@@ -31,6 +29,11 @@ type VM struct {
 	Memory  uint16
 	Image   string
 	BaseDir string
+}
+
+type Population struct {
+	Serials []string
+	Macs    []string
 }
 
 func getImagePath(baseDir, image string) (string, error) {
@@ -47,19 +50,33 @@ func getImagePath(baseDir, image string) (string, error) {
 	return imagePath, nil
 }
 
-func NewVM(flags *VMFlags, baseDir string) (*VM, error) {
+func createMacAddress() (string, error) {
+	buf := make([]byte, 6)
+	_, err := rand.Read(buf)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("00:16:3e:%02x:%02x:%02x", buf[0], buf[1], buf[2]), nil
+}
+
+func NewVM(flags *VMFlags, baseDir string, pop *Population) (*VM, error) {
 	imagePath, err := getImagePath(baseDir, flags.Image)
 	if err != nil {
 		return nil, err
 	}
 
 	vm := &VM{
-		Serial:  uuid.NewV4().String(),
 		Memory:  flags.Memory,
 		Image:   imagePath,
 		BaseDir: baseDir,
 	}
 
+	if len(pop.Serials) > 0 {
+		vm.Serial = pop.Serials[0]
+		pop.Serials = pop.Serials[1:]
+	} else {
+		vm.Serial = uuid.NewV4().String()
+	}
 	hds := strings.Split(flags.HDs, ",")
 	bridges := strings.Split(flags.BridgeInterfaces, ",")
 
@@ -72,7 +89,18 @@ func NewVM(flags *VMFlags, baseDir string) (*VM, error) {
 	}
 
 	for i, bridge := range bridges {
-		nic, err := NewNIC(bridge, i)
+		var mac string
+		if len(pop.Macs) > 0 {
+			mac = pop.Macs[0]
+			pop.Macs = pop.Macs[1:]
+		} else {
+			mac, err = createMacAddress()
+			if err != nil {
+				return vm, err
+			}
+		}
+
+		nic, err := NewNIC(bridge, i, mac)
 		if err != nil {
 			return vm, err
 		}
