@@ -37,6 +37,7 @@ deps: .gobuild
 	@GOPATH=$(GOPATH) builder go get github.com/mitchellh/go-homedir
 	@GOPATH=$(GOPATH) builder go get github.com/satori/go.uuid
 	@GOPATH=$(GOPATH) builder go get github.com/ryanuber/columnize
+	@GOPATH=$(GOPATH) builder go get gopkg.in/yaml.v2
 
 	# Fetch test packages
 	@GOPATH=$(GOPATH) builder go get github.com/onsi/gomega

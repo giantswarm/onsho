@@ -1,7 +1,6 @@
 package vm
 
 import (
-	"crypto/rand"
 	"fmt"
 	"os"
 )
@@ -19,15 +18,6 @@ var (
 	}
 )
 
-func getMacAddress() (string, error) {
-	buf := make([]byte, 6)
-	_, err := rand.Read(buf)
-	if err != nil {
-		return "", err
-	}
-	return fmt.Sprintf("00:16:3e:%02x:%02x:%02x", buf[0], buf[1], buf[2]), nil
-}
-
 func bridgeExists(bridge string) bool {
 	if _, err := os.Stat("/sys/class/net/" + bridge); os.IsNotExist(err) {
 		return false
@@ -35,12 +25,7 @@ func bridgeExists(bridge string) bool {
 	return true
 }
 
-func NewNIC(bridge string, bridgeOrderNumber int) (*NIC, error) {
-	mac, err := getMacAddress()
-	if err != nil {
-		return nil, err
-	}
-
+func NewNIC(bridge string, bridgeOrderNumber int, mac string) (*NIC, error) {
 	if !bridgeExists(bridge) {
 		return nil, fmt.Errorf(`Interface %s doesn't exist, you might want to set it up:
 

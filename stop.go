@@ -8,6 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type StopFlags struct {
+	TMuxSessionName string
+}
+
 var (
 	stopCmd = &cobra.Command{
 		Use:   "stop [serial|all]",
@@ -16,7 +20,7 @@ var (
 		Run:   stopRun,
 	}
 
-	stopFlags = &vm.VMFlags{}
+	stopFlags = &StopFlags{}
 )
 
 func init() {

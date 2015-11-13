@@ -8,6 +8,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type StartFlags struct {
+	NoTMux          bool
+	TMuxSessionName string
+}
+
 var (
 	startCmd = &cobra.Command{
 		Use:   "start [serial]",
@@ -16,7 +21,7 @@ var (
 		Run:   startRun,
 	}
 
-	startFlags = &vm.VMFlags{}
+	startFlags = &StartFlags{}
 )
 
 func init() {
