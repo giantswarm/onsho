@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/giantswarm/moa/vm"
 	"github.com/mitchellh/go-homedir"
@@ -24,12 +25,13 @@ var (
 )
 
 func init() {
-	destroyCmd.PersistentFlags().StringVar(&destroyFlags.TMuxSessionName, "tmux-session-name", "zoo", "TMUX session name to start the instances in")
+	destroyCmd.PersistentFlags().StringVar(&destroyFlags.TMuxSessionName, "tmux-session-name", DefaultTMuxSessionName, "TMUX session name to start the instances in")
 }
 
 func destroyRun(cmd *cobra.Command, args []string) {
 	if len(args) != 1 {
 		fmt.Println("Serial missing. If you want to destroy all vms pass in 'all'.")
+		os.Exit(1)
 	}
 
 	configDir, err := homedir.Expand(globalFlags.config)

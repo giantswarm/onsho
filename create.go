@@ -32,17 +32,17 @@ var (
 )
 
 func init() {
-	createCmd.PersistentFlags().Uint8Var(&createFlags.NumberOfVMs, "num-vms", 5, "Number of virtual machines")
+	createCmd.PersistentFlags().Uint8Var(&createFlags.NumberOfVMs, "num-vms", DefaultNumVMs, "Number of virtual machines")
 	createCmd.PersistentFlags().BoolVar(&createFlags.NoStart, "no-start", false, "Do not start the virtual machines")
 	createCmd.PersistentFlags().StringVar(&createFlags.Population, "population", "", "List of serials and macs to populate the machines from")
 	createCmd.PersistentFlags().BoolVar(&createFlags.NoTMux, "no-tmux", false, "Run a single vm within the current shell")
-	createCmd.PersistentFlags().StringVar(&createFlags.TMuxSessionName, "tmux-session-name", "zoo", "TMUX session name to start the instances in")
+	createCmd.PersistentFlags().StringVar(&createFlags.TMuxSessionName, "tmux-session-name", DefaultTMuxSessionName, "TMUX session name to start the instances in")
 
-	createCmd.PersistentFlags().StringVar(&vmFlags.BridgeInterfaces, "bridge-ifs", "bond0", "Bridge interface to bind the virtual machines to (comma-separated)")
-	createCmd.PersistentFlags().StringVar(&vmFlags.DiskSize, "disk-size", "16G", "Disk size of the virtual machines in GB (eg 16G)")
-	createCmd.PersistentFlags().StringVar(&vmFlags.HDs, "hds", "hda,hdb", "Names of the hard disk devices (comma-separated)")
-	createCmd.PersistentFlags().Uint16Var(&vmFlags.Memory, "memory", 1024, "RAM of the virtual machines in MB (eg 1024)")
-	createCmd.PersistentFlags().StringVar(&vmFlags.Image, "image", "ipxe.iso", "Image to start the virtual machine with")
+	createCmd.PersistentFlags().StringVar(&vmFlags.BridgeInterfaces, "bridge-ifs", DefaultBridgeIfs, "Bridge interface to bind the virtual machines to (comma-separated)")
+	createCmd.PersistentFlags().StringVar(&vmFlags.DiskSize, "disk-size", DefaultDiskSize, "Disk size of the virtual machines in GB (eg 16G)")
+	createCmd.PersistentFlags().StringVar(&vmFlags.HDs, "hds", DefaultHDs, "Names of the hard disk devices (comma-separated)")
+	createCmd.PersistentFlags().Uint16Var(&vmFlags.Memory, "memory", DefaultMemory, "RAM of the virtual machines in MB (eg 1024)")
+	createCmd.PersistentFlags().StringVar(&vmFlags.Image, "image", DefaultImage, "Image to start the virtual machine with")
 }
 
 func loadPopulation(filePath string) (vm.Population, error) {

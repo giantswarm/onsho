@@ -11,6 +11,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	DefaultNumVMs          uint8  = 5
+	DefaultTMuxSessionName string = "zoo"
+	DefaultBridgeIfs       string = "bond0"
+	DefaultDiskSize        string = "16G"
+	DefaultHDs             string = "hda,hdb"
+	DefaultMemory          uint16 = 1024
+	DefaultImage           string = "ipxe.iso"
+)
+
 var (
 	globalFlags struct {
 		debug   bool
@@ -94,6 +104,7 @@ func main() {
 	mainCmd.AddCommand(startCmd)
 	mainCmd.AddCommand(restartCmd)
 	mainCmd.AddCommand(listCmd)
+	mainCmd.AddCommand(wipeCmd)
 
 	mainCmd.Execute()
 }

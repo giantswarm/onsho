@@ -33,3 +33,7 @@ func NewHD(device, size, baseDir, serial string) (*HD, error) {
 
 	return hd, nil
 }
+
+func (hd *HD) Destroy() {
+	os.Remove(hd.Path)
+}
