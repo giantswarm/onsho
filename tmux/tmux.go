@@ -11,7 +11,7 @@ var (
 	ErrNotFound = errors.New("not found")
 )
 
-func raw(subcmd string, args ...string) ([]byte, error) {
+func raw(subcmd string, args ...string) (string, error) {
 	cmd := exec.Command("tmux", append([]string{subcmd}, args...)...)
 
 	var stdout bytes.Buffer
@@ -19,8 +19,8 @@ func raw(subcmd string, args ...string) ([]byte, error) {
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	if err := cmd.Run(); err != nil {
-		return nil, fmt.Errorf("%s %s - %v", stdout.String(), stderr.String(), err)
+		return "", fmt.Errorf("%s %s - %v", stdout.String(), stderr.String(), err)
 	}
 
-	return []byte(stdout.String()), nil
+	return stdout.String(), nil
 }

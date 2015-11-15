@@ -105,6 +105,7 @@ func main() {
 	mainCmd.AddCommand(restartCmd)
 	mainCmd.AddCommand(listCmd)
 	mainCmd.AddCommand(wipeCmd)
+	mainCmd.AddCommand(statusCmd)
 
 	mainCmd.Execute()
 }

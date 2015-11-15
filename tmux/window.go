@@ -1,7 +1,7 @@
 package tmux
 
 import (
-	"fmt"
+	"strings"
 )
 
 func NewWindow(session, name, cmd string) error {
@@ -20,7 +20,15 @@ func KillWindow(name string) error {
 }
 
 func ListWindows(session string) ([]string, error) {
-	windows, err := raw("list-windows", "-t", session)
-	fmt.Println(windows)
-	return []string{}, err
+	out, err := raw("list-windows", "-t", session)
+
+	split := strings.Split(out, "\n")
+
+	windows := []string{}
+	for _, w := range split {
+		if w != "" {
+			windows = append(windows, w)
+		}
+	}
+	return windows, err
 }
