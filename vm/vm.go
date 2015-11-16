@@ -199,25 +199,28 @@ func (vm *VM) Start(tmuxSession string, noTMux bool) {
 	}
 }
 
-func (vm *VM) Stop() {
-	tmux.KillWindow(vm.Serial)
+func (vm *VM) Stop(tmuxSession string) error {
+	return tmux.KillWindow(tmuxSession, vm.Serial)
 }
 
-func (vm *VM) Destroy() {
+func (vm *VM) Destroy() error {
 	for _, hd := range vm.HDs {
 		hd.Destroy()
 	}
 
-	os.Remove(fmt.Sprintf("%s/machines/%s.json", vm.BaseDir, vm.Serial))
+	return os.Remove(fmt.Sprintf("%s/machines/%s.json", vm.BaseDir, vm.Serial))
 }
 
-func StopAll(tmuxSession string) {
-	tmux.KillSession(tmuxSession)
+func StopAll(tmuxSession string) error {
+	return tmux.KillSession(tmuxSession)
 }
 
-func DestroyAll(configDir string) {
-	os.RemoveAll(configDir + "/machines")
-	os.RemoveAll(configDir + "/disks")
+func DestroyAll(configDir string) error {
+	err := os.RemoveAll(configDir + "/machines")
+	if err != nil {
+		return err
+	}
+	return os.RemoveAll(configDir + "/disks")
 }
 
 func (vm *VM) Wipe(flags *VMFlags) error {

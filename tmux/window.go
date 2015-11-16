@@ -1,6 +1,7 @@
 package tmux
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -14,8 +15,8 @@ func NewWindow(session, name, cmd string) error {
 	return err
 }
 
-func KillWindow(name string) error {
-	_, err := raw("kill-window", "-t", name)
+func KillWindow(session, name string) error {
+	_, err := raw("kill-window", "-t", fmt.Sprintf("%s:%s", session, name))
 	return err
 }
 
