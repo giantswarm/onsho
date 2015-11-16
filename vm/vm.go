@@ -243,16 +243,18 @@ func (vm *VM) Wipe(flags *VMFlags) error {
 }
 
 func (vm *VM) Status(tmuxSession string) (string, error) {
-	windows, err := tmux.ListWindows(tmuxSession)
-	if err != nil {
-		return "error", err
-	}
-
 	status := "stopped"
 
-	for _, w := range windows {
-		if strings.Contains(w, vm.Serial) {
-			status = "running"
+	if tmux.HasSession(tmuxSession) {
+		windows, err := tmux.ListWindows(tmuxSession)
+		if err != nil {
+			return "error", err
+		}
+
+		for _, w := range windows {
+			if strings.Contains(w, vm.Serial) {
+				status = "running"
+			}
 		}
 	}
 
