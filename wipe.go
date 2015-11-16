@@ -38,4 +38,7 @@ func wipeRun(cmd *cobra.Command, args []string) {
 	assert(err)
 
 	machine.Wipe(wipeVMFlags)
+
+	err = machine.Save()
+	assert(err)
 }
