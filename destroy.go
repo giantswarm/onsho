@@ -38,16 +38,13 @@ func destroyRun(cmd *cobra.Command, args []string) {
 	assert(err)
 
 	if args[0] == "all" {
-		vm.StopAll(destroyFlags.TMuxSessionName)
-		vm.DestroyAll(configDir)
+		err = vm.DestroyAll(configDir, destroyFlags.TMuxSessionName)
+		assert(err)
 	} else {
 		machine, err := vm.Load(configDir, args[0])
 		assert(err)
 
-		err = machine.Stop(destroyFlags.TMuxSessionName)
-		assert(err)
-
-		err = machine.Destroy()
+		err = machine.Destroy(destroyFlags.TMuxSessionName)
 		assert(err)
 	}
 }
