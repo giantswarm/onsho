@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/giantswarm/moa/vm"
 	"github.com/mitchellh/go-homedir"
@@ -26,12 +27,13 @@ var (
 
 func init() {
 	startCmd.PersistentFlags().BoolVar(&startFlags.NoTMux, "no-tmux", false, "Run a single vm within the current shell")
-	startCmd.PersistentFlags().StringVar(&startFlags.TMuxSessionName, "tmux-session-name", "zoo", "TMUX session name to start the instances in")
+	startCmd.PersistentFlags().StringVar(&startFlags.TMuxSessionName, "tmux-session-name", DefaultTMuxSessionName, "TMUX session name to start the instances in")
 }
 
 func startRun(cmd *cobra.Command, args []string) {
 	if len(args) != 1 {
 		fmt.Println("Serial missing")
+		os.Exit(1)
 	}
 
 	configDir, err := homedir.Expand(globalFlags.config)

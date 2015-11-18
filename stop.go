@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/giantswarm/moa/vm"
 	"github.com/mitchellh/go-homedir"
@@ -24,12 +25,13 @@ var (
 )
 
 func init() {
-	stopCmd.PersistentFlags().StringVar(&stopFlags.TMuxSessionName, "tmux-session-name", "zoo", "TMUX session name to stop the instances in")
+	stopCmd.PersistentFlags().StringVar(&stopFlags.TMuxSessionName, "tmux-session-name", DefaultTMuxSessionName, "TMUX session name to stop the instances in")
 }
 
 func stopRun(cmd *cobra.Command, args []string) {
 	if len(args) != 1 {
 		fmt.Println("Serial missing. If you want to stop all vms pass in 'all'.")
+		os.Exit(1)
 	}
 
 	if args[0] == "all" {

@@ -81,7 +81,7 @@ func NewVM(flags *VMFlags, baseDir string, pop *Population) (*VM, error) {
 	bridges := strings.Split(flags.BridgeInterfaces, ",")
 
 	for _, device := range hds {
-		hd, err := NewHD(device, flags.DiskSize, baseDir, vm.Serial)
+		hd, err := NewHD(device, flags.DiskSize, vm.BaseDir, vm.Serial)
 		if err != nil {
 			return vm, err
 		}
@@ -205,8 +205,9 @@ func (vm *VM) Stop() {
 
 func (vm *VM) Destroy() {
 	for _, hd := range vm.HDs {
-		os.Remove(hd.Path)
+		hd.Destroy()
 	}
+
 	os.Remove(fmt.Sprintf("%s/machines/%s.json", vm.BaseDir, vm.Serial))
 }
 
@@ -217,4 +218,23 @@ func StopAll(tmuxSession string) {
 func DestroyAll(configDir string) {
 	os.RemoveAll(configDir + "/machines")
 	os.RemoveAll(configDir + "/disks")
+}
+
+func (vm *VM) Wipe(flags *VMFlags) error {
+	for _, hd := range vm.HDs {
+		hd.Destroy()
+	}
+
+	vm.HDs = []*HD{}
+	hds := strings.Split(flags.HDs, ",")
+
+	for _, device := range hds {
+		hd, err := NewHD(device, flags.DiskSize, vm.BaseDir, vm.Serial)
+		if err != nil {
+			return err
+		}
+		vm.HDs = append(vm.HDs, hd)
+	}
+
+	return nil
 }
