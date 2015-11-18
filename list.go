@@ -10,6 +10,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type ListFlags struct {
+	TMuxSessionName string
+}
+
 var (
 	listCmd = &cobra.Command{
 		Use:   "list",
@@ -17,12 +21,18 @@ var (
 		Long:  "List virtual machines.",
 		Run:   listRun,
 	}
+
+	listFlags = &ListFlags{}
 )
 
 const (
-	listHeader = "Id | Image | Memory | Disks | NICs"
-	listScheme = "%s | %s | %d | %s | %s"
+	listHeader = "Id | Image | Memory | Disks | NICs | Status"
+	listScheme = "%s | %s | %d | %s | %s | %s"
 )
+
+func init() {
+	listCmd.PersistentFlags().StringVar(&listFlags.TMuxSessionName, "tmux-session-name", DefaultTMuxSessionName, "TMUX session name to status the instances in")
+}
 
 func listRun(cmd *cobra.Command, args []string) {
 	configDir, err := homedir.Expand(globalFlags.config)
@@ -41,12 +51,15 @@ func listRun(cmd *cobra.Command, args []string) {
 			nics = append(nics, fmt.Sprintf("%s %s", nic.Bridge, nic.Mac))
 		}
 
+		status, _ := machine.Status(listFlags.TMuxSessionName)
+
 		lines = append(lines, fmt.Sprintf(listScheme,
 			machine.Serial,
 			machine.Image,
 			machine.Memory,
 			strings.Join(hds, ","),
-			strings.Join(nics, ",")))
+			strings.Join(nics, ","),
+			status))
 	}
 	fmt.Println(columnize.SimpleFormat(lines))
 }
