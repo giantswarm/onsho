@@ -44,7 +44,10 @@ func destroyRun(cmd *cobra.Command, args []string) {
 		machine, err := vm.Load(configDir, args[0])
 		assert(err)
 
-		machine.Stop()
-		machine.Destroy()
+		err = machine.Stop(destroyFlags.TMuxSessionName)
+		assert(err)
+
+		err = machine.Destroy()
+		assert(err)
 	}
 }
