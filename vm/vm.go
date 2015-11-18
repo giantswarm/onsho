@@ -203,7 +203,16 @@ func (vm *VM) Stop(tmuxSession string) error {
 	return tmux.KillWindow(tmuxSession, vm.Serial)
 }
 
-func (vm *VM) Destroy() error {
+func (vm *VM) Destroy(tmuxSession string) error {
+	status, err := vm.Status(tmuxSession)
+	if err != nil {
+		return err
+	}
+
+	if status == "running" {
+		return fmt.Errorf("Machine is still running (%s)", vm.Serial)
+	}
+
 	for _, hd := range vm.HDs {
 		hd.Destroy()
 	}
@@ -215,12 +224,19 @@ func StopAll(tmuxSession string) error {
 	return tmux.KillSession(tmuxSession)
 }
 
-func DestroyAll(configDir string) error {
-	err := os.RemoveAll(configDir + "/machines")
+func DestroyAll(configDir, tmuxSession string) error {
+	machines, err := List(configDir)
 	if err != nil {
 		return err
 	}
-	return os.RemoveAll(configDir + "/disks")
+
+	for _, m := range machines {
+		err := m.Destroy(tmuxSession)
+		if err != nil {
+			return err
+		}
+	}
+	return err
 }
 
 func (vm *VM) Wipe(flags *VMFlags) error {
