@@ -25,6 +25,8 @@ sudo systemctl restart systemd-networkd
 sudo systemctl enable systemd-networkd
 ```
 
+To [allow qemu-bridge-helper](http://wiki.qemu.org/Features-Done/HelperNetworking#Setup) to manipulate our bridge add `allow bond0` to `/etc/qemu/bridge.conf`.
+
 ## Start a cluster
 
 Start a qemu cluster:
