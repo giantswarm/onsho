@@ -25,10 +25,19 @@ sudo systemctl restart systemd-networkd
 sudo systemctl enable systemd-networkd
 ```
 
+To [allow qemu-bridge-helper](http://wiki.qemu.org/Features-Done/HelperNetworking#Setup) to manipulate our bridge add `allow bond0` to `/etc/qemu/bridge.conf`.
+
 ## Start a cluster
 
 Start a qemu cluster:
 ```
 $ ./moa create --num-vms=5 --image=ipxe/ipxe.iso # creates a 5 machine cluster
 $ tmux a -t zoo                                # attach to the created tmux session
+```
+
+## Debugging
+
+The simplest setup to get some output would be this:
+```bash
+$ ./moa create --num-vms=1 --image=ipxe/ipxe.iso --no-tmux
 ```
