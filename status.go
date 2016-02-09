@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/giantswarm/moa/vm"
+	"github.com/giantswarm/onsho/vm"
 	"github.com/mitchellh/go-homedir"
 	"github.com/ryanuber/columnize"
 	"github.com/spf13/cobra"

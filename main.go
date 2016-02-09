@@ -14,7 +14,7 @@ import (
 const (
 	DefaultNumVMs          uint8  = 5
 	DefaultTMuxSessionName string = "zoo"
-	DefaultBridgeIfs       string = "bond0"
+	DefaultBridgeIfs       string = "onsho0"
 	DefaultDiskSize        string = "16G"
 	DefaultHDs             string = "hda,hdb"
 	DefaultMemory          uint16 = 1024
@@ -30,7 +30,7 @@ var (
 	}
 
 	mainCmd = &cobra.Command{
-		Use:   "moa",
+		Use:   "onsho",
 		Short: "Manage a QEMU Giant Swarm",
 		Long:  "Manage a QEMU Giant Swarm",
 		Run:   mainRun,
@@ -44,7 +44,7 @@ func init() {
 	mainCmd.PersistentFlags().BoolVarP(&globalFlags.debug, "debug", "d", false, "Print debug output")
 	mainCmd.PersistentFlags().BoolVarP(&globalFlags.verbose, "verbose", "v", false, "Print verbose output")
 	mainCmd.PersistentFlags().DurationVar(&globalFlags.sleep, "sleep", 60*time.Second, "time to sleep between machine starts")
-	mainCmd.PersistentFlags().StringVar(&globalFlags.config, "config", "~/.giantswarm/moa", "Config folder (for machine state and boot images)")
+	mainCmd.PersistentFlags().StringVar(&globalFlags.config, "config", "~/.giantswarm/onsho", "Config folder (for machine state and boot images)")
 }
 
 func createConfig() {

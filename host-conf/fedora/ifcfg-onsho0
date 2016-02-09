@@ -1,4 +1,4 @@
-DEVICE=bond0
+DEVICE=onsho0
 TYPE=Bridge
 ONBOOT=yes
 DELAY=0

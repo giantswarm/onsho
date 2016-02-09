@@ -1,4 +1,4 @@
-PROJECT=moa
+PROJECT=onsho
 ORGANIZATION=giantswarm
 
 SOURCE := $(shell find . -name '*.go')
@@ -58,8 +58,8 @@ $(PROJECT): $(SOURCE) VERSION
 
 install: $(PROJECT)
 	cp $(PROJECT) /usr/local/bin/
-	mkdir -p ~/.giantswarm/moa/images
-	cp ipxe/ipxe.iso ~/.giantswarm/moa/images
+	mkdir -p ~/.giantswarm/onsho/images
+	cp ipxe/ipxe.iso ~/.giantswarm/onsho/images
 
 fmt:
 	gofmt -l -w .

@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/giantswarm/moa/tmux"
+	"github.com/giantswarm/onsho/tmux"
 	"github.com/satori/go.uuid"
 )
 
