@@ -6,7 +6,7 @@ Manage QEMU VMs that will be provisioned by [Mayu](https://github.com/giantswarm
 
 ## Prerequisites
 
-## Getting Project
+## Getting Onsho
 
 Three ways to get the project:
 
