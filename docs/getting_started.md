@@ -36,7 +36,7 @@ Fetch the CoreOS version you would like to use:
 ./fetch-coreos-image 835.13.0
 ```
 
-Check the versions of docker, etcd and fleet you would like to install. There are defaults defined in the ´./fetch-mayu-asset` script.
+Check the versions of docker, etcd and fleet you would like to install. There are defaults defined in the `./fetch-mayu-asset` script.
 
 ```
 grep 'VERSION=' fetch-mayu-assets
