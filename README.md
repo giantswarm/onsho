@@ -34,6 +34,7 @@ make && sudo make install
 
 In order to give qemu cluster machines a separate network they can have fun in
 you have to create a network bridge:
+
 ```
 sudo brctl addbr onsho0
 sudo ip link set up dev onsho0
@@ -41,6 +42,7 @@ sudo ip addr add 10.0.3.251/22 dev onsho0
 ```
 
 If you have systemd you can use systemd-networkd to create the bridge and make it remain after a reboot:
+
 ```
 sudo cp host-conf/systemd-networkd/* /etc/systemd/network
 sudo systemctl restart systemd-networkd
@@ -72,7 +74,7 @@ Check code documentation: [godoc](https://godoc.org/github.com/giantswarm/onsho)
 
 ## Future Development
 
-- Adapt Onsho to work with VirtualBox on MacOS
+- Adapt Onsho to also work with VirtualBox on MacOS.
 
 ## Contact
 
