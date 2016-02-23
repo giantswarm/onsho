@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/giantswarm/onsho.svg)](https://travis-ci.org/giantswarm/onsho) [![](https://godoc.org/github.com/giantswarm/onsho?status.svg)](http://godoc.org/github.com/giantswarm/onsho) [![](https://img.shields.io/docker/pulls/giantswarm/onsho.svg)](http://hub.docker.com/giantswarm/onsho) [![IRC Channel](https://img.shields.io/badge/irc-%23giantswarm-blue.svg)](https://kiwiirc.com/client/irc.freenode.net/#giantswarm)
 
-Manage QEMU VMs that will be provisioned by Mayu. With Onsho you can replicate a Giant Swarm DC on a single machine or VM.
+Manage QEMU VMs that will be provisioned by [Mayu](https://github.com/giantswarm/mayu). With Onsho you can replicate a Giant Swarm DC on a single machine or VM.
 
 ## Prerequisites
 
@@ -87,3 +87,7 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details on submitting patches, the contr
 ## License
 
 Onsho is under the Apache 2.0 license. See the [LICENSE](LICENSE) file for details.
+
+## Origin of the Name
+
+`onsho` (おんしょう[温床] pronounced "on-shou") is Japanese for breeding ground.
