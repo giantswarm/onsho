@@ -1,5 +1,5 @@
 [Match]
-Name=bond0
+Name=onsho0
 
 [Network]
 Address=10.0.3.251/22

@@ -16,5 +16,5 @@ var (
 )
 
 func versionRun(cmd *cobra.Command, args []string) {
-	fmt.Println("moa version", projectVersion)
+	fmt.Println("onsho version", projectVersion)
 }
