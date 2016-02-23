@@ -1,6 +1,6 @@
 # Onsho
 
-[![Build Status](https://api.travis-ci.org/giantswarm/onsho.svg)](https://travis-ci.org/giantswarm/onsho) [![](https://godoc.org/github.com/giantswarm/onsho?status.svg)](http://godoc.org/github.com/giantswarm/onsho) [![](https://img.shields.io/docker/pulls/giantswarm/onsho.svg)](http://hub.docker.com/giantswarm/onsho) [![IRC Channel](https://img.shields.io/badge/irc-%23giantswarm-blue.svg)](https://kiwiirc.com/client/irc.freenode.net/#giantswarm)
+[![](https://godoc.org/github.com/giantswarm/onsho?status.svg)](http://godoc.org/github.com/giantswarm/onsho) [![IRC Channel](https://img.shields.io/badge/irc-%23giantswarm-blue.svg)](https://kiwiirc.com/client/irc.freenode.net/#giantswarm)
 
 Manage QEMU VMs that will be provisioned by Mayu. With Onsho you can replicate a Giant Swarm DC on a single machine or VM.
 
