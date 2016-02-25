@@ -8,11 +8,9 @@ Manage QEMU VMs that will be provisioned by [Mayu](https://github.com/giantswarm
 
 ## Getting Onsho
 
-Three ways to get the project:
+Download the latest release from here: https://github.com/giantswarm/onsho/releases/latest
 
-- Install/Download a release
-- Docker image for a release (autobuild)
-- Build (two options: local or in docker)
+Clone the latest git repository version from here: https://github.com/giantswarm/onsho.git
 
 ### How to build
 
