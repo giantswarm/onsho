@@ -10,7 +10,7 @@ Manage QEMU VMs that will be provisioned by [Mayu](https://github.com/giantswarm
 
 Download the latest release from here: https://github.com/giantswarm/onsho/releases/latest
 
-Clone the latest git repository version from here: git@github.com:giantswarm/onsho.git
+Clone the latest git repository version from here: https://github.com/giantswarm/onsho.git
 
 ### How to build
 
