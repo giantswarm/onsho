@@ -45,7 +45,7 @@ grep 'VERSION=' fetch-mayu-assets
 
 There are a few things you should configure before Mayu is usable:
 
- * add your SSH key to the config.yaml (replace '<your public key>')
+ * add your SSH key to the config.yaml (replace `<your public key>`)
  * adapt docker, fleet and etcd versions
  * add `no_secure: true` to the config if you don't want to use TLS in your local setup
  * change the interface (bond0) to something like onsho0
