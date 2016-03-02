@@ -13,7 +13,7 @@ For now Onsho only supports QEMU/KVM. Which makes Linux a requirement. But you s
 
 ## Building Onsho
 
-```
+```nohighlight
 git clone https://github.com/giantswarm/onsho.git
 cd onsho
 make && sudo make install
@@ -23,7 +23,7 @@ make && sudo make install
 
 Fetch a Mayu release and create your own configuration and docker image:
 
-```
+```nohighlight
 wget https://downloads.giantswarm.io/mayu/latest/mayu.tar.gz
 mkdir mayu
 tar xzf mayu.tar.gz -C mayu
@@ -32,13 +32,13 @@ cd mayu
 
 Fetch the CoreOS version you would like to use:
 
-```
+```nohighlight
 ./fetch-coreos-image 835.13.0
 ```
 
 Check the versions of docker, etcd and fleet you would like to install. There are defaults defined in the `./fetch-mayu-asset` script.
 
-```
+```nohighlight
 grep 'VERSION=' fetch-mayu-assets
 ./fetch-mayu-assets
 ```
@@ -50,14 +50,14 @@ There are a few things you should configure before Mayu is usable:
  * add `no_secure: true` to the config if you don't want to use TLS in your local setup
  * change the interface (bond0) to something like onsho0
 
-```
+```nohighlight
 cp config.yaml.dist config.yaml
 vi config.yaml
 ```
 
 Now Mayus configuration is in place and we can build and run the container.
 
-```
+```nohighlight
 docker build -t mayu .
 
 mkdir cluster
@@ -68,7 +68,7 @@ docker run --cap-add=NET_ADMIN --net=host -v $(pwd)/cluster:/var/lib/mayu -v $(p
 
 In order to give qemu cluster machines a separate network they can have fun in you have to create a network bridge:
 
-```
+```nohighlight
 sudo brctl addbr onsho0
 sudo ip link set up dev onsho0
 sudo ip addr add 10.0.3.251/22 dev onsho0
@@ -76,7 +76,7 @@ sudo ip addr add 10.0.3.251/22 dev onsho0
 
 If you have systemd you can use systemd-networkd to create the bridge and make it remain after a reboot:
 
-```
+```nohighlight
 sudo cp host-conf/systemd-networkd/* /etc/systemd/network
 sudo systemctl restart systemd-networkd
 sudo systemctl enable systemd-networkd
@@ -88,7 +88,7 @@ To [allow qemu-bridge-helper](http://wiki.qemu.org/Features-Done/HelperNetworkin
 
 Now with Mayu and the bridge configured you can start your local CoreOS cluster.
 
-```
+```nohighlight
 onsho create --num-vms=3
 tmux a -t zoo
 ```
@@ -96,6 +96,7 @@ tmux a -t zoo
 ## Debugging
 
 The simplest setup to get some output would be this:
-```bash
+
+```nohighlight
 $ onsho create --num-vms=1 --image=ipxe/ipxe.iso --no-tmux
 ```
