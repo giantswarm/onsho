@@ -19,9 +19,9 @@ $ cd onsho
 $ make && sudo make install
 ```
 
-## Start mayu
+## Start Mayu
 
-Fetch a Mayu release and create your own configuration and docker image:
+Fetch a [Mayu](https://github.com/giantswarm/mayu) release and create your own configuration and docker image:
 
 ```nohighlight
 $ wget https://downloads.giantswarm.io/mayu/latest/mayu.tar.gz
@@ -55,7 +55,7 @@ $ cp config.yaml.dist config.yaml
 $ vi config.yaml
 ```
 
-Now Mayus configuration is in place and we can build and run the container.
+Now Mayu's configuration is in place and we can build and run the container.
 
 ```nohighlight
 $ docker build -t mayu .
@@ -103,5 +103,8 @@ $ tmux a -t zoo
 The simplest setup to get some output would be this:
 
 ```nohighlight
-$ onsho create --num-vms=1 --image=ipxe/ipxe.iso --no-tmux
+$ onsho create \
+    --num-vms=1 \
+    --image=ipxe/ipxe.iso \
+    --no-tmux
 ```
