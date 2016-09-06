@@ -21,6 +21,7 @@ Clone the latest git repository version from here: https://github.com/giantswarm
  * `tmux`
  * `qemu` (>=2.4, including kvm support)
  * `linux`
+ *  [builder](https://github.com/giantswarm/builder) (compiled and included in $PATH)
 
 #### Building the standard way
 
